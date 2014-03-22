@@ -219,7 +219,7 @@
 				if ( _this.options.navEvent == 'click' ){
 					li[i].onclick = function(){ _this.navEvent( li, this.index ); }
 				} else {
-					li[i].mouseover = function(){ _this.navEvent( li, this.index ); }
+					li[i].onmouseover = function(){ _this.navEvent( li, this.index ); }
 				}
 			}
 		},
