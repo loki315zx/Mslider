@@ -96,7 +96,6 @@
 				var li = document.createElement('li');
 				var a = document.createElement('a');
 				a.setAttribute( 'href', 'javascript:;' );
-				( i == 0 ) ? a.setAttribute( 'class', _this.options.current ) : '';
 				a.innerText = i+1;
 				li.appendChild( a );
 				ul.appendChild( li );
@@ -214,11 +213,14 @@
 			var _this = this;
 			_this.createHtml( _this.options.nav );
 			var li = _this.options.nav.getElementsByTagName('ul')[0].getElementsByTagName('li');
-			
 			for ( var i=0; i<li.length; i++ ){
-				( _this.li == i ) ? li.getElementsByTagName('a')[0].className = _this.options.current : '';
+				( i == 0 ) ? li[i].getElementsByTagName('a')[0].className = _this.options.current : '';
 				li[i].index = i;
-				_this.addEventCheck( li[i], _this.options.navEvent, function(){ _this.navEvent( li, this.index ) } );
+				if ( _this.options.navEvent == 'click' ){
+					li[i].onclick = function(){ _this.navEvent( li, this.index ); }
+				} else {
+					li[i].mouseover = function(){ _this.navEvent( li, this.index ); }
+				}
 			}
 		},
 		navEvent : function( obj, index ){
