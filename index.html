@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>M.Slider</title>
+	
+	<!--Code Hight CSS-->
+	<link rel="stylesheet" href="assets/css/shCore.css" />
+	<link rel="stylesheet" href="assets/css/shThemeDefault.css" />
+	
+	<!--Demo CSS-->
+	<link rel="stylesheet" href="assets/css/demo.css" />
+
+	<!--Mslider JS-->
+	<script type="text/javascript" src="Mslider.js?ver=1.0.0"></script>
+</head>
+<body>
+
+	<h1>Mslider Demo <a href="https://github.com/webjyh/Mslider" target="_blank">#View Github</a> <a style="font-size:12px;" target="_blank" href="http://webjyh.com/Mslider/">By M.J</a></h1>
+	<hr />
+	
+	<div class="wrapper">
+	
+		<!--Example One-->
+		<div class="example_box">
+			<h3>使用 Mslider</h3>
+			<p>Mslider是一个幻灯片切换的插件，本插件由原生JavaScript所编写，不需要任何JS库。</p>
+
+			<div class="demo_box">
+			
+				<!--Mslider CSS-->
+				<style type="text/css">
+					/* 幻灯父容器 */
+					.focus-wrap { position:relative; width:480px; }
+					
+					/* 幻灯容器 */
+					.slider { width:480px; height:320px; overflow:hidden; }
+					
+					/* 幻灯箭头 */
+					.arrow { display:none; position:absolute; top:50%; margin-top:-15px; width:30px; height:30px; background:url(images/arrows.png) no-repeat 0px 0px; z-index:20; }
+					.arrow-left { left:10px; background-position:0px 0px; }
+					.arrow-right { right:10px; background-position:-30px 0px; }
+					
+					/* 幻灯小导航 */
+					.promo-nav { 
+						position:absolute; 
+						bottom:10px; 
+						right:10px; 
+						height:13px; 
+						line-height:9px;
+						text-align:center; 
+						border-radius:10px; 
+						z-index:22;
+						background:rgba(255, 255, 255, 0.3); 
+						filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#4CFFFFFF', EndColorStr='#4CFFFFFF');
+					}
+					.promo-nav ul li { float:left; vertical-align:middle; zoom:1; margin:2px 3px; }
+					.promo-nav ul li a { font:0 a; text-indent:-9999px; display:block; width:9px; height:0px; padding-top:9px; border-radius:50%; background:#B7B7B7; overflow:hidden; }
+					.promo-nav ul li a.current { background:#F40; }
+				</style>
+				
+				<!--Mslider HTML -->
+				<div class="focus-wrap">
+					<div class="slider" id="slider">
+						<ul>
+							<li><a href="#"><img src="images/4.jpg" /></a></li>
+							<li><a href="#"><img src="images/3.jpg" /></a></li>
+							<li><a href="#"><img src="images/2.jpg" /></a></li>
+							<li><a href="#"><img src="images/1.jpg" /></a></li>
+							<li><a href="#"><img src="images/4.jpg" /></a></li>
+							<li><a href="#"><img src="images/3.jpg" /></a></li>
+						</ul>
+						<a href="javascript:;" class="arrow arrow-left" id="arrow-left"></a>
+						<a href="javascript:;" class="arrow arrow-right" id="arrow-right"></a>
+					</div>
+					<div class="promo-nav" id="promo-nav"></div>
+				</div>
+				
+				<!-- Mslider -->
+				<script type="text/javascript">
+					var slider = new Mslider({
+						id : 'slider',
+						auto : true,
+						time : 3500,
+						speed : 40,
+						effect : 'Expo',
+						direction : 'Lateral',
+						arrowLeft : 'arrow-left',
+						arrowRight : 'arrow-right',
+						isHidden : true,
+						nav : 'promo-nav',
+						navEvent : 'click',
+						current : 'current'
+					});
+				</script>
+				<br />
+				<p>
+					<label>自动播放：</label>
+					<select id="auto">
+						<option value="0">开</option>
+						<option value="1">关</option>
+					</select>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<label>幻灯动画效果：</label>
+					<select id="effect">
+						<option value="Linear">Linear</option>
+						<option value="Quint">Quint</option>
+						<option value="Expo" selected="selected">Expo</option>
+						<option value="Bounce">Bounce</option>
+					</select>
+					
+				</p>
+				<p>
+					<label>幻灯方向：</label>
+					<select id="direction">
+						<option value="Lateral">横向</option>
+						<option value="Vertical">竖向</option>
+					</select>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<label>是否开启 Prev Next 隐藏：</label>
+					<select id="isHidden">
+						<option value="0">开</option>
+						<option value="1">关</option>
+					</select>
+				</p>
+				<p>更多参数设置，请参考底部：Mslider 更多参数</p>
+				<script type="text/javascript">
+					function $$( id ){
+						return document.getElementById(id);
+					}
+					
+					
+					$$('auto').onchange = function(){
+						clearInterval( slider.re );
+						if ( this.value == '0' ) { 
+							slider.options.auto = true;
+							slider.interval();
+						} else {
+							slider.options.auto = false;
+						}
+					}
+					
+					$$('effect').onchange = function(){
+						( this.value == "Linear" ) ? slider.options.speed = 20 : slider.options.speed = 40;
+						slider.options.effect = this.value;
+					}
+					
+					$$('direction').onchange = function(){
+						slider.options.direction = this.value;
+						slider.setCss();
+					}
+					
+					$$('isHidden').onchange = function(){
+						if ( this.value == '0' ){
+							slider.options.isHidden = true;
+							slider.options.arrowLeft.style.display="none";
+							slider.options.arrowRight.style.display="none";
+						} else {
+							slider.options.isHidden = false;
+							slider.options.arrowLeft.style.display="block";
+							slider.options.arrowRight.style.display="block";
+						}
+						
+					}
+				
+				</script>
+				
+			</div>
+
+			<h6>1.引用JS</h6>
+			<div class="code_box">
+				<pre class="brush: php; html-script:true;">&lt;script type="text/javascript" src="Mslider.js"&gt;&lt;script&gt;</pre>
+			</div> 
+			
+			<h6>2.编写HTML</h6>
+			<div class="code_box">
+				<pre class="brush: php; html-script:true;">
+					&lt;div class="slider" id="slider"&gt;
+						&lt;ul&gt;
+							&lt;li&gt;&lt;a href="#"&gt;&lt;img src="images/4.jpg" /&gt;&lt;/a&gt;&lt;/li&gt;
+							&lt;li&gt;&lt;a href="#"&gt;&lt;img src="images/3.jpg" /&gt;&lt;/a&gt;&lt;/li&gt;
+							&lt;li&gt;&lt;a href="#"&gt;&lt;img src="images/2.jpg" /&gt;&lt;/a&gt;&lt;/li&gt;
+							&lt;li&gt;&lt;a href="#"&gt;&lt;img src="images/1.jpg" /&gt;&lt;/a&gt;&lt;/li&gt;
+							&lt;li&gt;&lt;a href="#"&gt;&lt;img src="images/4.jpg" /&gt;&lt;/a&gt;&lt;/li&gt;
+							&lt;li&gt;&lt;a href="#"&gt;&lt;img src="images/3.jpg" /&gt;&lt;/a&gt;&lt;/li&gt;
+						&lt;/ul&gt;
+					&lt;/div&gt;</pre>
+			</div> 
+			<p><strong>PS:</strong>以上结构为必须结构，否则插件可能将无法运行。如需要扩展像 上一张，下一张 功能，或者幻灯右下方的小导航则要另编写HTML。下面将会继续介绍。</p>
+			
+			<h6>3.编写CSS</h6>
+			<div class="code_box">
+				<pre class="brush: css;">
+					.slider { width:480px; height:320px; overflow:hidden; }</pre>
+			</div>
+			<p><strong>PS:</strong>以上 CSS 写是必须的，需要定宽，定高，然后设置 overflow 为 hidden 。</p>
+			
+			<h6>4.初始化JS</h6>
+			<div class="code_box">
+				<pre class="brush: js;html-script:true;">
+				&lt;script type="text/javascript"&gt;
+					new Mslider({
+						id : 'slider',        //对应幻灯容器的ID名
+						auto : true         //是否开启自动播放，默认不开启
+					});
+				&lt;/script&gt;</pre>
+			</div>
+			<p><strong>PS:</strong>以上就会形成一个最基本的图片切换效果。它将不会包含 上一张，下一张 和 幻灯右下角导航的功能。</p>
+			
+		</div>
+		
+		<!--Example Two-->
+		<div class="example_box">
+			
+			<h3><span style="color:#00F;">Expand：</span>扩展上一张，下一张功能</h3>
+			
+			<h6>1.增加HTML</h6>
+			<div class="code_box">
+				<pre class="brush: php;html-script:true;">
+					&lt;div class="slider" id="slider"&gt;
+						&lt;ul&gt;
+							&lt;li&gt;&lt;a href="#"&gt;&lt;img src="images/4.jpg" /&gt;&lt;/a&gt;&lt;/li&gt;
+							&lt;li&gt;&lt;a href="#"&gt;&lt;img src="images/3.jpg" /&gt;&lt;/a&gt;&lt;/li&gt;
+							&lt;li&gt;&lt;a href="#"&gt;&lt;img src="images/2.jpg" /&gt;&lt;/a&gt;&lt;/li&gt;
+							&lt;li&gt;&lt;a href="#"&gt;&lt;img src="images/1.jpg" /&gt;&lt;/a&gt;&lt;/li&gt;
+							&lt;li&gt;&lt;a href="#"&gt;&lt;img src="images/4.jpg" /&gt;&lt;/a&gt;&lt;/li&gt;
+							&lt;li&gt;&lt;a href="#"&gt;&lt;img src="images/3.jpg" /&gt;&lt;/a&gt;&lt;/li&gt;
+						&lt;/ul&gt;
+						<!--增加的 HTML Start-->
+						&lt;a href="javascript:;" class="arrow arrow-left" id="arrow-left"&gt;&lt;/a&gt;
+						&lt;a href="javascript:;" class="arrow arrow-right" id="arrow-right"&gt;&lt;/a&gt;
+						<!--增加的 HTML End-->
+					&lt;/div&gt;</pre>
+			</div>
+			<p><strong>PS:</strong>以上增加的 HTML 不局限在 slider 容器，可以将他放在外面，这看功能需求了，CSS须自己扩展，只要将 上一张的 ID名 对应插件参数的 arrow-left, 下一张的 ID名 对应插件参数 arrow-right 即可。</p>
+			
+			<h6>2.增加 CSS</h6>
+			<div class="code_box">
+				<pre class="brush: css;">
+					.arrow { 
+						display:none; 
+						position:absolute; 
+						top:50%; 
+						margin-top:-15px;
+						width:30px;
+						height:30px;
+						background:url(images/arrows.png) no-repeat 0px 0px;
+						z-index:20; 
+					}
+					.arrow-left { left:10px; background-position:0px 0px; }
+					.arrow-right { right:10px; background-position:-30px 0px; }</pre>
+			</div>
+			
+			<h6>3.增加 JS</h6>
+			<div class="code_box">
+				<pre class="brush: js;html-script:true;">
+				&lt;script type="text/javascript"&gt;
+					new Mslider({
+						id : 'slider',                  //对应幻灯容器的ID名
+						auto : true,                    //是否开启自动播放，默认不开启
+						arrowLeft : 'arrow-left',       //上一张
+						arrowRight : 'arrow-right',     //下一张
+						isHidden : true               //是否自动隐藏 上一张，下一张箭头，默认不开启
+					});
+				&lt;/script&gt;</pre>
+			</div>
+			
+		</div>
+		
+		<!--Example Three-->
+		<div class="example_box">
+		
+			<h3><span style="color:#00F;">Expand：</span>扩展幻灯小导航</h3>
+			
+			<h6>1.增加HTML</h6>
+			<div class="code_box">
+				<pre class="brush: php;html-script:true;">
+					&lt;div class="slider" id="slider"&gt;
+						&lt;ul&gt;
+							&lt;li&gt;&lt;a href="#"&gt;&lt;img src="images/4.jpg" /&gt;&lt;/a&gt;&lt;/li&gt;
+							&lt;li&gt;&lt;a href="#"&gt;&lt;img src="images/3.jpg" /&gt;&lt;/a&gt;&lt;/li&gt;
+							&lt;li&gt;&lt;a href="#"&gt;&lt;img src="images/2.jpg" /&gt;&lt;/a&gt;&lt;/li&gt;
+							&lt;li&gt;&lt;a href="#"&gt;&lt;img src="images/1.jpg" /&gt;&lt;/a&gt;&lt;/li&gt;
+							&lt;li&gt;&lt;a href="#"&gt;&lt;img src="images/4.jpg" /&gt;&lt;/a&gt;&lt;/li&gt;
+							&lt;li&gt;&lt;a href="#"&gt;&lt;img src="images/3.jpg" /&gt;&lt;/a&gt;&lt;/li&gt;
+						&lt;/ul&gt;
+						<!--增加的 HTML Start-->
+						&lt;a href="javascript:;" class="arrow arrow-left" id="arrow-left"&gt;&lt;/a&gt;
+						&lt;a href="javascript:;" class="arrow arrow-right" id="arrow-right"&gt;&lt;/a&gt;
+						<!--增加的 HTML End-->
+					&lt;/div&gt;
+					<!--增加的小导航 HTML -->
+					&lt;div class="promo-nav" id="promo-nav"&gt;&lt;/div&gt;
+				</pre>
+			</div>
+			<p><strong>PS:</strong>以上只要写个容器即可，CSS须自己扩展。里面的 UL li 由插件自动生成，此容器也是不局限于哪个容器下，也只要对应插件的 nav 参数即可。</p>
+		
+			<h6>2.增加CSS</h6>
+			<div class="code_box">
+				<pre class="brush: css;">
+					.promo-nav { 
+						position:absolute; 
+						bottom:10px; 
+						right:10px; 
+						height:13px; 
+						line-height:9px;
+						text-align:center; 
+						border-radius:10px; 
+						z-index:22;
+						background:rgba(255, 255, 255, 0.3); 
+						filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#4CFFFFFF', EndColorStr='#4CFFFFFF');
+					}
+					.promo-nav ul li { 
+						float:left; 
+						vertical-align:middle; 
+						zoom:1; 
+						margin:2px 3px; 
+					}
+					.promo-nav ul li a { 
+						font:0 a;
+						text-indent:-9999px; 
+						display:block; width:9px;
+						height:0px; 
+						padding-top:9px;
+						border-radius:50%; 
+						background:#B7B7B7; 
+						overflow:hidden; 
+					}
+					.promo-nav ul li a.current { background:#F40; }</pre>
+			</div>
+			
+			<h6>3.增加 JS</h6>
+			<div class="code_box">
+				<pre class="brush: js;html-script:true;">
+				&lt;script type="text/javascript"&gt;
+					new Mslider({
+						id : 'slider',                  //对应幻灯容器的ID名
+						auto : true,                    //是否开启自动播放，默认不开启
+						arrowLeft : 'arrow-left',       //上一张
+						arrowRight : 'arrow-right',     //下一张
+						isHidden : true,                //是否自动隐藏 上一张，下一张箭头，默认不开启
+						nav : 'promo-nav',              //幻灯小导航的ID名
+						navEvent : 'click',             //小导航的每个li的触发事件，默认为 click 还可以为 mouseover
+						current : 'current'           //默认小导航选中时候的 className 名， ClassName是给的 a 标签
+					});
+				&lt;/script&gt;</pre>
+			</div>
+			
+		</div>
+		
+		<!--Example Four-->
+		<div class="example_box">
+			<h3><span style="color:#00F;">Expand：</span>Mslider 更多参数</h3>
+			<div class="code_box">
+				<pre class="brush: js;html-script:true;">
+				&lt;script type="text/javascript"&gt;
+					new Mslider({
+						id : 'slider',                  //对应幻灯容器的ID名
+						auto : true,                    //是否开启自动播放，         default = false
+						time : 3500,                    //幻灯每次自动切换的时间
+						speed : 40,                     //幻灯动画的速度
+						effect : 'Expo',                //动画的效果                 default = [ Linear, Quint, Expo, Bounce ];
+						direction : 'Lateral',          //动画执行方向               default = [ Lateral, Vertical ] Lateral=横向，Vertical=竖向
+						arrowLeft : 'arrow-left',       //Prev 上一张 ID 名
+						arrowRight : 'arrow-right',     //Next 下一张 ID 名
+						isHidden : true,                //是否自动隐藏 Prev Next容器 default = false
+						nav : 'promo-nav',              //幻灯小导航的ID名
+						navEvent : 'click',             //小导航的每个li的触发事件，默认为 click 还可以为 mouseover    default = [ click, mouseover ]
+						current : 'current'           //默认小导航选中时候的 className 名， ClassName是给的 a 标签     default = current
+					});
+				&lt;/script&gt;</pre>
+			</div>
+			<p>更多使用的方法，各位自己扩展吧</p>
+			
+		</div>
+		
+		<!--Example Five-->
+		<p style="padding-top:10px;"><a href="Mslider.zip" class="btn" style="padding:5px 10px;">下载 Mslider.zip</a></p>
+
+	</div>
+	
+	<!--Code Hight-->
+	<script type="text/javascript" src="assets/js/shcore.js"></script>
+	<script type="text/javascript" src="assets/js/shBrushXml.js"></script>
+	<script type="text/javascript" src="assets/js/shBrushPhp.js"></script>
+	<script type="text/javascript" src="assets/js/shbrushjscript.js"></script>
+	<script type="text/javascript" src="assets/js/shbrushcss.js"></script>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+/**
+ * SyntaxHighlighter
+ * http://alexgorbatchev.com/SyntaxHighlighter
+ *
+ * SyntaxHighlighter is donationware. If you are using it, please donate.
+ * http://alexgorbatchev.com/SyntaxHighlighter/donate.html
+ *
+ * @version
+ * 3.0.83 (July 02 2010)
+ * 
+ * @copyright
+ * Copyright (C) 2004-2010 Alex Gorbatchev.
+ *
+ * @license
+ * Dual licensed under the MIT and GPL licenses.
+ */
+/* ´úÂë¸ßÁÁ */
+.syntaxhighlighter {
+  overflow:auto;
+  background-color: white !important;
+
+}
+
+.syntaxhighlighter .code .line{ white-space:nowrap; }
+
+.syntaxhighlighter .code .line.alt1 {
+  padding:0 10px!important;
+}
+.syntaxhighlighter .code .line.alt2 {
+  padding:0 10px!important;  
+  background-color: white !important;
+}
+.syntaxhighlighter .line.highlighted.alt1, .syntaxhighlighter .line.highlighted.alt2 {
+  background-color: #fff !important;
+}
+.syntaxhighlighter .line.highlighted.number {
+  color: black !important;
+}
+.syntaxhighlighter table caption {
+  color: black !important;
+}
+.syntaxhighlighter .gutter {
+  color: #afafaf !important;
+}
+.syntaxhighlighter .gutter .line {
+  padding:1px 7px;  
+  *padding:0px 7px;
+  font-size: 12px !important;
+  border-right: 3px solid #46ca3b !important;
+  height: 24px; 
+  line-height: 24px; 
+  font-family:"Consolas","Bitstream Vera Sans Mono","Courier New",Courier,monospace;
+}
+.syntaxhighlighter .gutter .line.highlighted {
+  background-color: #46ca3b !important;
+  color: white !important;
+}
+.syntaxhighlighter.printing .line .content {
+  border: none !important;
+}
+.syntaxhighlighter.collapsed {
+  overflow: visible !important;
+}
+.syntaxhighlighter.collapsed .toolbar,
+.syntaxhighlighter .toolbar {
+  display:none;
+}
+
+.syntaxhighlighter .plain, .syntaxhighlighter .plain a {
+  color: black !important;
+  font-family:"Consolas","Bitstream Vera Sans Mono","Courier New",Courier,monospace; font-size: 13px; line-height: 24px; 
+}
+.syntaxhighlighter .comments, .syntaxhighlighter .comments a {
+  color: #008200 !important;
+  font-size: 13px; line-height: 24px; 
+}
+.syntaxhighlighter .string, .syntaxhighlighter .string a {
+  font-family:"Consolas","Bitstream Vera Sans Mono","Courier New",Courier,monospace; font-size: 13px; line-height: 24px; 
+  color: #ff0080 !important;
+}
+.syntaxhighlighter .spaces{ height:24px; }
+.syntaxhighlighter .keyword {
+  font-family:"Consolas","Bitstream Vera Sans Mono","Courier New",Courier,monospace; font-size: 13px; line-height: 24px; 
+  color: blue !important;
+  font-style:italic;
+}
+.syntaxhighlighter .preprocessor {
+  color: gray !important;
+}
+.syntaxhighlighter .variable {
+  color: #aa7700 !important;
+}
+.syntaxhighlighter .value {
+  color: #009900 !important;
+}
+.syntaxhighlighter .functions {
+  color: #ff1493 !important;
+}
+.syntaxhighlighter .constants {
+  color: #0066cc !important;
+}
+.syntaxhighlighter .script {
+  font-weight: bold !important;
+  color: #006699 !important;
+  font-size:13px;
+  background-color: none !important;
+}
+.syntaxhighlighter .color1, .syntaxhighlighter .color1 a {
+  color: gray !important;
+}
+.syntaxhighlighter .color2, .syntaxhighlighter .color2 a {
+  color: #ff1493 !important;
+}
+.syntaxhighlighter .color3, .syntaxhighlighter .color3 a {
+  color: red !important;
+}
+
+.syntaxhighlighter .keyword {
+  font-weight: bold !important;
+}
