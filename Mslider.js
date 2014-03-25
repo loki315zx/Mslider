@@ -13,13 +13,14 @@
  * @param        {String}        nav               幻灯片小导航 ID名
  * @param        {String}        navEvent          幻灯片小导航触发事件       default = [ click, mouseover ]
  * @param        {String}        current           默认导航 a className 名    default = current
- *
+ * @param        {String}        isText            默认是否显示 文本容器      default = false
+ * @param        {String}        text              幻灯 Slider Text 容器的 ID名
  *
  * @author        M.J
  * @URL           http://webjyh.com
  * @Demo          http://demo.webjyh.com/Mslider/
  * @Time          2014/03/21
- * @Ver           1.0.0
+ * @Ver           1.1.0
  */
 (function(){
 	var Mslider = function( params ){
@@ -35,6 +36,7 @@
 		_this.index = 0;
 		_this.re = null;
 		_this.animateTime = null;
+		_this.textArr = [];
 		
 		/* options */
 		_this.options = {
@@ -48,7 +50,9 @@
 			isHidden : params.isHidden ? true : false,
 			nav : params.nav ? _this.$$( params.nav ) : null,
 			navEvent : params.navEvent ? params.navEvent : 'click',
-			current : params.current ? params.current : 'current'
+			current : params.current ? params.current : 'current',
+			isText : params.isText ? true : false,
+			text : params.text ? _this.$$( params.text ) : null
 		};
 		_this.init();
 	};
@@ -118,7 +122,7 @@
 			} else {
 				_this.ul.style.marginTop = parseInt( effect( t, b, c, d ) ) + 'px';
 			}
-			if ( t < d ) { t++;  _this.animateTime = setTimeout( function(){ _this.animate( t, b, c, d ); }, 20 ); }
+			if ( t < d ) { t++; _this.animateTime = setTimeout( function(){ _this.animate( t, b, c, d ); }, 20 ); }
 		},
 		effect : function( effect ){
 			var _this = this;
@@ -178,6 +182,9 @@
 				var li = _this.options.nav.getElementsByTagName('ul')[0].getElementsByTagName('li');
 				_this.setClass( li, _this.index );
 			}
+			if ( _this.options.text ){
+				_this.setText( _this.index );
+			}
 		},
 		mouseover : function(){
 			var _this = this;
@@ -229,6 +236,17 @@
 			_this.index = index;
 			_this.action( _this.index );
 		},
+		getText : function(){
+			var _this = this,
+			    li = _this.li;
+			for ( var i=0; i<li.length; i++ ){
+				_this.textArr.push( li[i].getElementsByTagName('a')[0].getAttribute( 'title' ) );
+			}
+		},
+		setText : function( index ){
+			var _this = this;
+			_this.options.text.innerText = _this.textArr[index];
+		},
 		init : function(){
 			var _this = this;
 			
@@ -253,6 +271,13 @@
 			/* setInterval */
 			if ( _this.options.auto ) {
 				_this.interval();
+			}
+			
+			/* Text */
+			if ( _this.options.text ){
+				_this.options.isText ? _this.createCss( _this.options.text, { 'display':'block' } ) : _this.createCss( _this.options.text, { 'display':'none' } );
+				_this.getText();
+				_this.setText( _this.index );
 			}
 		}
 	};
